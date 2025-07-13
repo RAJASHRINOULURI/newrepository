@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Celebration</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #ffe6f0, #ffb3d1);
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    .container {
+      z-index: 2;
+      position: relative;
+      padding-top: 100px;
+    }
+
+    h1 {
+      font-size: 3.5em;
+      margin-bottom: 20px;
+      color: #ff3399;
+    }
+
+    button {
+      padding: 18px 40px;
+      font-size: 20px;
+      background-color: #ff3399;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -200px;
+      width: 80px;
+      height: 120px;
+      background-color: #ff6699;
+      border-radius: 50% 50% 45% 45%;
+      animation: floatUp 5s linear forwards;
+      opacity: 0.9;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 3px;
+      height: 35px;
+      background: #333;
+      transform: translateX(-50%);
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: gold;
+      border-radius: 50%;
+      opacity: 0.9;
+      pointer-events: none;
+      animation: particleBurst 1.2s ease-out forwards;
+    }
+
+    .cracker {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.9;
+      pointer-events: none;
+      animation: crackerBlast 1.5s ease-out forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    @keyframes particleBurst {
+      0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.5) translate(var(--x), var(--y)) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes crackerBlast {
+      0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2) translate(var(--cx), var(--cy)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 Welcome birthday boy 🎉</h1>
+    <button onclick="startSurprise()">Click to Begin</button>
+  </div>
+
+  <script>
+    function startSurprise() {
+      window.location.href = "video.html";
+    }
+
+    // Create a grand balloon
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.className = "balloon";
+      balloon.style.left = Math.random() * 85 + "vw";
+      balloon.style.backgroundColor = getRandomColor();
+      document.body.appendChild(balloon);
+
+      setTimeout(() => {
+        burstParticles(balloon);
+        balloon.remove();
+      }, 4800);
+    }
+
+    // Create fireworks crackers randomly
+    function launchFireCrackers() {
+      const count = 30;
+      const originX = Math.random() * window.innerWidth;
+      const originY = Math.random() * window.innerHeight * 0.7;
+
+      for (let i = 0; i < count; i++) {
+        const cracker = document.createElement("div");
+        cracker.className = "cracker";
+        cracker.style.left = originX + "px";
+        cracker.style.top = originY + "px";
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 120 + Math.random() * 200;
+        const cx = Math.cos(angle) * distance + "px";
+        const cy = Math.sin(angle) * distance + "px";
+        cracker.style.setProperty("--cx", cx);
+        cracker.style.setProperty("--cy", cy);
+        cracker.style.backgroundColor = getRandomColor();
+        document.body.appendChild(cracker);
+
+        // Remove cracker after animation
+        setTimeout(() => cracker.remove(), 1500);
+      }
+    }
+
+    // Random color generator
+    function getRandomColor() {
+      const colors = ["#ff6699", "#ffcc00", "#66ccff", "#99ff66", "#ff6666", "#cc99ff", "#33cc99", "#ffffff"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Create burst effect at balloon's position
+    function burstParticles(balloon) {
+      const rect = balloon.getBoundingClientRect();
+      for (let i = 0; i < 40; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = rect.left + 30 + "px";
+        particle.style.top = rect.top + "px";
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 120 + Math.random() * 150;
+        const x = Math.cos(angle) * distance + "px";
+        const y = Math.sin(angle) * distance + "px";
+        particle.style.setProperty("--x", x);
+        particle.style.setProperty("--y", y);
+
+        particle.style.backgroundColor = getRandomColor();
+        document.body.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 1200);
+      }
+    }
+
+    // Launch balloons and crackers continuously
+    setInterval(createBalloon, 700);
+    setInterval(launchFireCrackers, 1500);
+  </script>
+</body>
+</html>

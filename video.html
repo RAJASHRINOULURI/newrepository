@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Surprise Video</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="video-page">
+  <div>
+  <video id="birthdayVideo" width="100%" autoplay muted playsinline>
+    <source src="vedioplay.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+  <!-- Button to navigate to message page -->
+  <div style="text-align: center; margin-top: 20px;">
+    <button onclick="location.href='message.html'" style="padding: 10px 20px; font-size: 16px; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+      Go to Message Page
+    </button>
+  </div>
+
+  <script>
+    const video = document.getElementById('birthdayVideo');
+    video.addEventListener('ended', function () {
+      window.location.href = "message.html";
+    });
+  </script>
+</body>
+</html>
